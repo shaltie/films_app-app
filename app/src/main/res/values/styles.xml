@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+    </style>
+
+
+    <style name="genre_button" parent="Theme.AppCompat.Light">
+        <item name="android:layout_weight">0.33</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">120dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+</resources>

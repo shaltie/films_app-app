@@ -1,0 +1,110 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+
+
+    <!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_years"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        card_view:cardCornerRadius="4dp">
+
+        <TextView
+            android:text="Choose years"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />dsed
+
+        <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+            android:id="@+id/yearsRangeBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:corner_radius="10"
+            app:min_value="1900"
+            app:max_value="2016"
+            app:gap="2"
+            app:bar_color="#EE88F7"
+            app:bar_highlight_color="#D810EA"
+            app:left_thumb_color="#8D0D99"
+            app:right_thumb_color="#8D0D99"
+            app:left_thumb_color_pressed="#56005E"
+            app:right_thumb_color_pressed="#56005E"
+            app:data_type="_integer"/>
+
+        <TextView
+            android:id="@+id/yearMinText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/yearMaxText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.CardView>
+
+    <!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_popularity"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/card_view_years"
+        card_view:cardCornerRadius="4dp">
+
+        <TextView
+            android:id="@+id/card_view_popularity_label"
+            android:text="Choose popularity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <SeekBar
+            android:id="@+id/popularityBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_below="@id/card_view_popularity_label"
+            android:max="10"/>
+
+
+    </android.support.v7.widget.CardView>
+
+    <!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_genre"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/card_view_popularity"
+        card_view:cardCornerRadius="4dp">
+
+        <Button
+            android:id="@+id/chooseGenresBtn"
+            android:layout_width="match_parent"
+            android:text="Choose genres"
+            android:layout_height="match_parent" />
+
+    </android.support.v7.widget.CardView>
+
+    <ImageButton
+        android:id="@+id/goSearchBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="72dp"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+
+
+
+
+</RelativeLayout>
