@@ -32,4 +32,52 @@
     </string-array>
 
 
+    <string-array name="genres_id_list">
+        <!-- Standard currencies -->
+        <item>35</item>
+        <item>18</item>
+        <item>10749</item>
+        <item>37</item>
+        <item>53</item>
+        <item>80</item>
+        <item>36</item>
+        <item>12</item>
+        <item>28</item>
+        <item>27</item>
+        <item>878</item>
+        <item>10751</item>
+    </string-array>
+
+    <!--28:"Action"
+35:"Comedy"
+18:"Drama"
+10751:"Family"
+36:"History"
+27:"Horror"
+878:"Science Fiction"
+53:"Thriller"
+37:"Western"
+80:"Crime" / detective
+10749:"Romance"
+
+
+12:"Adventure"
+16:"Animation"
+
+
+99:"Documentary"
+
+
+14:"Fantasy"
+
+
+10402:"Music"
+9648:"Mystery"
+
+
+10770:"TV Movie"
+
+10752:"War"-->
+
+
 </resources>

@@ -43,6 +43,8 @@ public class GetAPI {
 
         URL url = new URL(API_URL + "?g=" + genres + "&ng=" + withoutGenres + "&y=" + years + "&p=" + popularity);
 
+        Log.d(CAT_LOG, "urL: " + url.toString());
+
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
         urlConnection.setRequestMethod("GET");

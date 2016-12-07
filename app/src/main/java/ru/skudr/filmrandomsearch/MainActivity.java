@@ -2,7 +2,10 @@ package ru.skudr.filmrandomsearch;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,22 +16,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.lang.Integer.parseInt;
 
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener {
 
@@ -36,12 +45,23 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     GetAPI getAPI;
 
     Button chooseGenresBtn;
-    ImageButton goSearchBtn;
+    ImageButton goSearchBtn,
+            backToSelectBtn;
     SeekBar popularityBar;
 
     CrystalRangeSeekbar yearsRangeBar;
     TextView yearMinText;
     TextView yearMaxText;
+    TextView outputInfoTitle,
+            outputInfoOverview,
+            outputInfoRelease,
+            outputInfoPopularity,
+            outputInfoGenres,
+            outputInfoVote;
+
+    ImageView outputInfoPoster;
+    RelativeLayout searchLayout,
+        outputLayout;
 
 
     //ImageButton genreComedyBtn;
@@ -49,6 +69,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
     GridLayout genresDialog;
 
     List<String> GenresList;
+    List<String> GenresIdList;
     Map<String, String> GenresMap;
 
     @Override
@@ -59,9 +80,11 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         getAPI = new GetAPI();
 
         goSearchBtn = (ImageButton) findViewById(R.id.goSearchBtn);
+        backToSelectBtn = (ImageButton) findViewById(R.id.backToSelectBtn);
         chooseGenresBtn = (Button) findViewById(R.id.chooseGenresBtn);
         popularityBar = (SeekBar) findViewById(R.id.popularityBar);
         goSearchBtn.setOnClickListener(this);
+        backToSelectBtn.setOnClickListener(this);
         chooseGenresBtn.setOnClickListener(this);
 
         // get seekbar from view
@@ -69,6 +92,17 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
         yearMinText = (TextView) findViewById(R.id.yearMinText);
         yearMaxText = (TextView) findViewById(R.id.yearMaxText);
+        outputInfoTitle = (TextView) findViewById(R.id.outputInfoTitle);
+        outputInfoOverview = (TextView) findViewById(R.id.outputInfoOverview);
+        outputInfoRelease = (TextView) findViewById(R.id.outputInfoRelease);
+        outputInfoPopularity = (TextView) findViewById(R.id.outputInfoPopularity);
+        outputInfoGenres = (TextView) findViewById(R.id.outputInfoGenres);
+        outputInfoVote = (TextView) findViewById(R.id.outputInfoVote);
+
+        outputInfoPoster = (ImageView) findViewById(R.id.outputInfoPoster);
+
+        searchLayout = (RelativeLayout) findViewById(R.id.searchLayout);
+        outputLayout = (RelativeLayout) findViewById(R.id.outputLayout);
 
         // set listener
         yearsRangeBar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
@@ -80,6 +114,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         });
 
         GenresList = Arrays.asList(getResources().getStringArray(R.array.genres_list));
+        GenresIdList = Arrays.asList(getResources().getStringArray(R.array.genres_id_list));
         GenresMap = new HashMap<String, String>();
 
         for(int i = 0; i < GenresList.size(); i++) {
@@ -118,17 +153,65 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         Log.d(CAT_LOG, "pop: " + String.valueOf(popularityBar.getProgress()));
         Log.d(CAT_LOG, "years: " + yearMinText.getText().toString() + "-" + yearMaxText.getText().toString());
 
+        String years = yearMinText.getText().toString() + "-" + yearMaxText.getText().toString();
 
+        ArrayList<String> addedGenres = new ArrayList<String>();
+        ArrayList<String> excludedGenres = new ArrayList<String>();
+
+
+        for(int i = 0; i < GenresList.size(); i++) {
+            int v = parseInt(GenresMap.get(GenresList.get(i).toString()));
+            if(v == 1){
+                addedGenres.add(GenresIdList.get(i).toString());
+            }else if(v == -1){
+                excludedGenres.add(GenresIdList.get(i).toString());
+            }
+        }
+        String addedGenresString = addedGenres.toString().replace("[", "").replace("]", "").replace(" ","").trim();
+        String excludedGenresString = excludedGenres.toString().replace("[", "").replace("]", "").replace(" ","").trim();
+        Log.d(CAT_LOG, "added: " + addedGenresString);
+        Log.d(CAT_LOG, "prohi: " + excludedGenresString);
 
         try{
-            JSONObject res = getAPI.get("12", "", yearMinText + "-" + yearMaxText, String.valueOf(popularityBar.getProgress()));
+            JSONObject res = getAPI.get(addedGenresString, excludedGenresString, years, String.valueOf(popularityBar.getProgress()));
+
+            searchLayout.setVisibility(View.GONE);
+            outputLayout.setVisibility(View.VISIBLE);
             Log.d(CAT_LOG + " res", res.toString());
+            outputInfoTitle.setText(res.getString("original_title"));
+            outputInfoOverview.setText(res.getString("overview"));
+            outputInfoRelease.setText(res.getString("release_date"));
+            outputInfoPopularity.setText(res.getString("popularity"));
+
+            List<String> genresList = new ArrayList<String>(Arrays.asList(res.getString("genre_ids").replace("[","").replace("]","").replace(" ","").split(",")));
+            String genresOutPut = "";
+            for(String id : genresList){
+
+                genresOutPut += GenresList.get(GenresIdList.indexOf(id)).toString().replace("genre","") + ", ";
+            }
+
+            Log.d(CAT_LOG, genresOutPut);
+
+            outputInfoGenres.setText(genresOutPut);
+            outputInfoVote.setText(res.getString("vote_average"));
+
+            Picasso.with(this)
+                    .load("https://image.tmdb.org/t/p/w600_and_h900_bestv2" + res.getString("poster_path"))
+                    .into(outputInfoPoster);
+
         }catch(JSONException e){
             e.printStackTrace();
         }catch(IOException ex){
             ex.printStackTrace();
         }
 
+
+    }
+
+    void toSelect(){
+
+        outputLayout.setVisibility(View.GONE);
+        searchLayout.setVisibility(View.VISIBLE);
 
     }
 
@@ -139,6 +222,9 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         switch (v.getId()) {
             case R.id.goSearchBtn:
                 search();
+                break;
+            case R.id.backToSelectBtn:
+                toSelect();
                 break;
             case R.id.chooseGenresBtn:
                 showDialog();
@@ -151,7 +237,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
     public void tapGenre(ImageButton btn, String id){
 
-        int value = Integer.parseInt(btn.getTag().toString());
+        int value = parseInt(btn.getTag().toString());
         if(value == 0)
             GenresMap.put(id, "1");
         else if(value == 1)
@@ -167,7 +253,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
         //int value = Integer.parseInt(btn.getTag().toString());
 
-        int v = Integer.parseInt(GenresMap.get(id).toString());
+        int v = parseInt(GenresMap.get(id).toString());
 
         String src = id.replace("genre", "").toLowerCase();
 
