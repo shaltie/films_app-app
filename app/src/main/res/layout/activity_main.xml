@@ -1,13 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="20dp"
+    android:background="#fcf6ea"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainFragment">
 
     <RelativeLayout
         android:id="@+id/searchLayout"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,40 +21,60 @@
             android:id="@+id/card_view_years"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginBottom="5dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="10dp"
             card_view:cardCornerRadius="4dp">
 
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_width="50dp"
+                android:src="@drawable/choose_years"
+                android:layout_height="wrap_content" />
+
             <TextView
+                android:paddingLeft="75dp"
+                android:layout_marginTop="5dp"
                 android:text="Choose years"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />dsed
+                android:layout_height="match_parent" />
 
             <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
                 android:id="@+id/yearsRangeBar"
+                android:layout_marginLeft="65dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:corner_radius="10"
+                app:corner_radius="1"
                 app:min_value="1900"
                 app:max_value="2016"
                 app:gap="2"
-                app:bar_color="#EE88F7"
-                app:bar_highlight_color="#D810EA"
-                app:left_thumb_color="#8D0D99"
-                app:right_thumb_color="#8D0D99"
-                app:left_thumb_color_pressed="#56005E"
-                app:right_thumb_color_pressed="#56005E"
+                app:bar_color="#41ab8e"
+                app:bar_highlight_color="#e2dc25"
+                app:left_thumb_color="#40937c"
+                app:right_thumb_color="#40937c"
+                app:left_thumb_color_pressed="#326053"
+                app:right_thumb_color_pressed="#326053"
                 app:data_type="_integer"/>
 
             <TextView
                 android:id="@+id/yearMinText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="75dp"
+                android:layout_marginTop="55dp"
+                />
 
             <TextView
+                android:layout_marginTop="55dp"
                 android:id="@+id/yearMaxText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                />
         </android.support.v7.widget.CardView>
 
         <!-- A CardView that contains a TextView -->
@@ -59,26 +83,48 @@
             android:id="@+id/card_view_popularity"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:layout_below="@id/card_view_years"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
             card_view:cardCornerRadius="4dp">
 
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_width="50dp"
+                android:src="@drawable/choose_country"
+                android:layout_height="wrap_content" />
+
             <TextView
-                android:id="@+id/card_view_popularity_label"
+                android:paddingLeft="75dp"
+                android:layout_marginTop="5dp"
                 android:text="Choose popularity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-
-            <SeekBar
+            <com.crystal.crystalrangeseekbar.widgets.CrystalSeekbar
                 android:id="@+id/popularityBar"
+                android:layout_marginLeft="65dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="30dp"
+                app:min_value="1"
+                app:max_value="10"
+                app:min_start_value="10"
+                app:bar_color="#edc430"
+                app:bar_highlight_color="#e2dc25"
+                app:left_thumb_color="#b49831"
+                app:right_thumb_color="#b49831"
+                app:left_thumb_color_pressed="#937d2d"
+                app:right_thumb_color_pressed="#937d2d"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_below="@id/card_view_popularity_label"
-                android:progress="10"
-                android:max="10"/>
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/popularityValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
         </android.support.v7.widget.CardView>
@@ -89,46 +135,55 @@
             android:id="@+id/card_view_genre"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:layout_below="@id/card_view_popularity"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             card_view:cardCornerRadius="4dp">
+
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:layout_width="50dp"
+                android:src="@drawable/choose_genres"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:paddingLeft="75dp"
+                android:gravity="center_vertical"
+                android:text="Choose genres"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/chooseGenresBtn"
                 android:layout_width="match_parent"
-                android:text="Choose genres"
+                android:text=""
+                android:background="@null"
                 android:layout_height="match_parent" />
 
         </android.support.v7.widget.CardView>
+
+        <ImageButton
+            android:id="@+id/goSearchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp"
+            android:layout_below="@id/card_view_genre"
+            android:layout_alignParentLeft="true"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:src="@drawable/go_btn" />
 
     </RelativeLayout>
 
 
 
-    <ImageButton
-        android:id="@+id/goSearchBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
-        android:layout_below="@id/searchLayout"
-        android:layout_alignParentLeft="true"
-        app:srcCompat="@android:drawable/ic_media_play" />
 
-    <ImageButton
-        android:id="@+id/backToSelectBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
-        android:layout_below="@id/searchLayout"
-        app:srcCompat="@android:drawable/arrow_up_float" />
 
     <ScrollView
 
-        android:layout_below="@id/goSearchBtn"
+        android:layout_below="@id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -141,12 +196,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageButton
+                android:id="@+id/reGoSearchBtn"
+                android:background="@null"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="15dp"
+                android:layout_alignParentLeft="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/re_go_btn" />
+
+            <ImageButton
+                android:id="@+id/backToSelectBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp"
+                android:background="@null"
+                app:srcCompat="@android:drawable/alert_dark_frame" />
+
             <ImageView
                 android:id="@+id/outputInfoPoster"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/reGoSearchBtn"
                 />
 
             <TextView
